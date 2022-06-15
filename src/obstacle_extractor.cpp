@@ -433,14 +433,19 @@ void ObstacleExtractor::publishObstacles() {
 
 
   for (const Segment& s : segments_) {
-    SegmentObstacle segment;
+    if (s.first_point.x > p_min_x_limit_ && s.first_point.x < p_max_x_limit_ &&
+        s.first_point.y > p_min_y_limit_ && s.first_point.y < p_max_y_limit_ &&
+        s.last_point.x > p_min_x_limit_ && s.last_point.x < p_max_x_limit_ &&
+        s.last_point.y > p_min_y_limit_ && s.last_point.y < p_max_y_limit_) {
+      SegmentObstacle segment;
 
-    segment.first_point.x = s.first_point.x;
-    segment.first_point.y = s.first_point.y;
-    segment.last_point.x = s.last_point.x;
-    segment.last_point.y = s.last_point.y;
+      segment.first_point.x = s.first_point.x;
+      segment.first_point.y = s.first_point.y;
+      segment.last_point.x = s.last_point.x;
+      segment.last_point.y = s.last_point.y;
 
-    obstacles_msg->segments.push_back(segment);
+      obstacles_msg->segments.push_back(segment);
+    }
   }
 
   for (const Circle& c : circles_) {
